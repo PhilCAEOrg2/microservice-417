@@ -116,6 +116,40 @@ public class ResTest {
   }
 
 
+  /**
+   * 
+   * Test for the name1_ID658489 method.
+   * 
+   */
+  @Test
+  public void testname1_ID658489() {
+    MiniClientCoverage c = new MiniClientCoverage(mainPath);
+    c.setConnectorEndpoint(connector.getHttpEndpoint());
+    
+        
+    try {
+      c.setLogin(AnonymousAgentImpl.IDENTIFIER, "");
+      ClientResponse result = c.sendRequest("GET", "/test", """
+""", "text/plain", "*/*", new HashMap<>(), new Object[0]);
+      System.out.println("Result of request with id: 659593: " + result.getResponse().trim());
+    
+      Assert.assertEquals("[422901]", 200, result.getHttpCode());
+  Object response = JSONValue.parse(result.getResponse().trim());
+      // Response body has type JSON Array
+      assertThat("[27763]", response, isA(JSONArray.class));
+      
+      // Response body has list entry that has field "user" has type JSON Object
+      assertThat("[225486]", response, both(isA(JSONArray.class)).and(asJSONObjectList(hasItem(both(isA(JSONObject.class)).and(asJSONObject(hasField("user", isA(JSONObject.class))))))));
+      
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Exception: " + e);
+    }
+    
+
+    
+  }
 
 
 
